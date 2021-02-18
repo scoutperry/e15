@@ -1,5 +1,4 @@
-version=2021-01-21-19-56-32
-
+version=2021-02-16-17-21-34
 #
 #
 # Main
@@ -125,7 +124,7 @@ main() {
     echo "COMMANDS:"
     echo ""
     echo "MISC"
-    echo "  a) Update utils"
+    echo "  a) Update"
     echo ""
     echo "LOCAL"
     echo "  b) Sync local code with Github"
@@ -138,32 +137,41 @@ main() {
     echo ""
     echo "PRODUCTION"
     if [ -n "$PRODUCTION_SSH" ]; then
-        echo "  i) Sync local code with Github and production"
-        echo "  j) SSH in your production server ($PRODUCTION_SSH) and navigate to $PROD_DIR_DOCUMENT_ROOT/$repository"
-        echo "  k) Edit VirtualHosts config file ($PROD_FILE_VHOSTS)"
-        echo "  l) Restart Apache"
+        echo "  i) Full deploy: Sync local code with Github and pull changes to production"
+        echo "  j) Pull latest changes from Github to production"
+        echo "  k) SSH in your production server ($PRODUCTION_SSH) and navigate to $PROD_DIR_DOCUMENT_ROOT/$repository"
+        echo "  l) Edit VirtualHosts config file ($PROD_FILE_VHOSTS)"
+        echo "  m) Restart Apache"
     else
         echo "  Production commands are not available until you update PRODUCTION_SSH in .config"
     fi
 
-    dump "ENTER A LETTER TO CHOOSE YOUR COMMAND (or enter q to quit): "
+    # If argument passed, that's the command to run
+    if [[ $1 ]]; then
+        commandToRun=$1
+        dump "Command to run: $commandToRun"
+    # Otherwse, ask for command to run
+    else 
+        dump "ENTER A LETTER TO CHOOSE YOUR COMMAND (or enter q to quit): "
+        read commandToRun
+    fi
 
-    read n
-    case $n in
-    a) update;;
-    b) github_sync;;
-    c) $LOCAL_CMD_VIEW_APACHE_ERROR_LOG;;
-    d) $LOCAL_CMD_EDIT_APACHE_CONFIG;;
-    e) $LOCAL_CMD_EDIT_VHOSTS;;
-    f) $LOCAL_CMD_READ_VHOSTS;;
-    g) $LOCAL_CMD_EDIT_HOSTS;;
-    h) $LOCAL_CMD_RESTART_APACHE;;
-    i) production_deploy;;
-    j) production_ssh;;
-    k) production_edit_virtual_hosts;;
-    l) production_restart_apache;;
+    case $commandToRun in
+    a) update; echo "Done.";;
+    b) github_sync; echo "Done.";;
+    c) $LOCAL_CMD_VIEW_APACHE_ERROR_LOG; echo "Opened $LOCAL_FILE_APACHE_ERROR_LOG.";;
+    d) $LOCAL_CMD_EDIT_APACHE_CONFIG; echo "Opened $LOCAL_FILE_APACHE_CONFIG.";;
+    e) $LOCAL_CMD_EDIT_VHOSTS; echo "Opened $LOCAL_FILE_VHOSTS.";;
+    f) $LOCAL_CMD_READ_VHOSTS; echo "Done.";;
+    g) $LOCAL_CMD_EDIT_HOSTS; echo "Opened $LOCAL_FILE_HOSTS.";;
+    h) $LOCAL_CMD_RESTART_APACHE; echo "Done.";;
+    i) production_deploy; echo "Done.";;
+    j) production_pull; echo "Done.";;
+    k) production_ssh; echo "Done.";;
+    l) production_edit_virtual_hosts; echo "Done.";;
+    m) echo "Restarting apache on production..."; production_restart_apache; echo "Done.";;
     
-    q) exit;;
+    q) echo "Exiting."; exit;;
     *) echo "Invalid option";;
     esac
 }
@@ -193,7 +201,11 @@ github_sync() {
 
 production_deploy() {
     github_sync
-    ssh -t $PRODUCTION_SSH "cd $PRODUCTION_DOC_ROOT/$repository; git pull"
+    ssh -t $PRODUCTION_SSH "cd $PROD_DIR_DOCUMENT_ROOT/$repository; git pull"
+}
+
+production_pull() {
+    ssh -t $PRODUCTION_SSH "cd $PROD_DIR_DOCUMENT_ROOT/$repository; git pull"
 }
 
 production_edit_virtual_hosts() {
@@ -265,4 +277,4 @@ dump () {
 #
 # Run
 #
-main
+main $1

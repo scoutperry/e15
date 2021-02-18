@@ -2,18 +2,11 @@
 <html lang='en'>
 
 <head>
-
     <title>Project One</title>
     <meta charset='utf-8'>
-
 </head>
 
 <body>
-
-
-    <p>
-    </p>
-
     <form method="GET" action="process.php">
         <h1>String Processor - e15 Project 1</h1>
         <label for='input'>Enter a word or phrase here</label>
@@ -21,15 +14,16 @@
         <button type='submit'>Submit</button>
     </form>
 
-    <?php if($results){ ?>
+    <?php if($results): ?>
     <div id='results'>
-        <p>You entered <?php echo $input;?></p>
-        <p>the total number of vowels is <?php echo $vowelCount;?></p>
-        <p><?php echo $input; echo $isPali;?></p>
-
+        <h4>Submitted Word or Phrase</h4>
+        <p>You entered "<?=$input ?>"</p>
+        <h4>Vowel Count</h4>
+        <p>The total number of vowels is: <?=$vowelCount?></p>
+        <h4>Is It a Palidrome?</h4>
+        <p>"<?=$input?>"<?=$isPali?></p>
     </div>
-    <?php } ?>
-
+    <?php endif ?>
 </body>
 
 </html>

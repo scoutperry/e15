@@ -2,62 +2,51 @@
 
 /*
 LETTER SHIFT
-ok, alphabet shift array and input array and empty result array 
+This was my failed attempt at the optional string processor
 
-iterate thru arrays,
-if match, take key letter, put in result array
-$alph = array(
-    'a' => 'b','b' => 'c', 'c' => 'd', 'd' => 'e', 'e' => 'f', 'f' => 'g', 'g' => 'h', 'h' => 'i',
-     'i' => 'j', 'j' => 'k', 'k' => 'l', 'l' => 'm', 'm' => 'n', 'n' => 'o', 'o' => 'p', 'p' => 'q',
-     'q' => 'r', 'r' => 's', 's' => 't', 't' => 'u', 'u' => 'v', 'v' => 'w', 'w' => 'x', 'x' => 'y',
-     'y' => 'z', 'z' => 'a')
- associative array!!
+$isShifted = letterShift($inArray);
 
+function letterShift($array){
+    $matchArray = [];
+    $alph = array(
+        'z'=>'y','y'=>'x','x'=>'w','w'=>'v','v'=>'u','u'=>'t','t'=>'s',
+        's'=>'r','r'=>'q','q'=> 'p', 'p'=>'o','o'=>'n','n'=>'m','m'=>'l
+        ','l'=>'k','k'=>'j','j'=>'i','i'=>'h','h'=>'g','g'=>'f','f'=>'e
+        ','e'=>'d','d'=>'c','c'=>'b','b'=>'a','a'=>'z');
+    foreach ($inArray as &$value) {
+        array_push($matchArray, array_search($value, $inArray));
+    }
+    return $matchArray;
+}
+
+It resulted in an array of integers with the values matching the keys. 
+This leads me to think that the returned key for array_search has to be
+an integer, and since I was using an associative array it just made up
+key numbers? That's my guess, anyway.
 */
 session_start();
 
-
-//var_dump($_GET['input']);
-
 $input = $_GET['input'];
+$tupni = strrev($input);
+$inArray = str_split($input);
+$isPali = ($input === $tupni) ? " is a palidrome!" : " is not a palidrome";
+$vowelCount = theCount($input,$inArray);
 
-//$inArray = str_split($input);
-//$count = 0;
-$isPali = palindrome($input);
-$vowelCount = theCount($input);
-
-
-function palindrome($string){
-    $tupni = strrev($string);
-    //echo($tupni);
-    if ($string === $tupni){
-        return " is a palidrome!";
-
-    }else{
-        return " is not a palidrome";
-    }
-}
-function theCount($string){
-    $inArray = str_split($string);
+function theCount($string,$array){
     $count = 0;
-    foreach ($inArray as &$value) {
-        if($value === 'a' or $value === 'e' or $value === 'i' 
-        or $value === 'o' or $value === 'u'){
+    foreach ($array as &$value) {
+        if(in_array($value,['a','e','i','o','u'])){
             $count++;
         }
     }
     return $count;
-
-}
-
-//echo($input);
-//var_dump($isPali);
-//echo($vowelCount);
+ }
 
 $_SESSION['results'] = [
     'vowelCount' => $vowelCount,
     'isPali' => $isPali,
     'input' => $input,
+    'inArray' => $inArray,
+    'matchArray' => $matchArray,
 ];
-//require 'index-view.php';
 header('Location: index.php');
