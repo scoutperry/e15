@@ -19,7 +19,7 @@ function letterShift($array){
     return $matchArray;
 }
 
-It resulted in an array of integers with the values matching the keys. 
+It resulted in an array of integers with the values matching the keys.
 This leads me to think that the returned key for array_search has to be
 an integer, and since I was using an associative array it just made up
 key numbers? That's my guess, anyway.
@@ -35,12 +35,12 @@ $vowelCount = theCount($input,$inArray);
 function theCount($string,$array){
     $count = 0;
     foreach ($array as &$value) {
-        if(in_array($value,['a','e','i','o','u'])){
+        if (in_array($value,['a','e','i','o','u'])) {
             $count++;
         }
     }
     return $count;
- }
+};
 
 $_SESSION['results'] = [
     'vowelCount' => $vowelCount,
