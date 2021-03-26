@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\HyflexController;
+use App\Http\Controllers\PageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,9 +16,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', [PageController::class, 'welcome']);
+//Route::get('/support', [PageController::class, 'support']);
+Route::get('/search', [HyflexController::class, 'search']);
+Route::post('/store', [HyflexController::class, 'store']);
+/*
 Route::get('/', function () {
     return view('welcome');
 });
+*/
 
 # New route
 Route::get('/example', function () {

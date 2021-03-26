@@ -1,4 +1,7 @@
 
-# Bookmark - Practice application for e15
-+ By: *your first and last name*
+# Project 2
++ By: Scout Perry
 + Production URL: <http://bookmark.yourdomain.com>
+
+## Notes for instructor
+I guess I should explain what this form is and why it's so long! This is based on a physical form I had to fill out for my job as an AV tech. I'm assisting MIT with their hybrid flexible or *hyflex* program, which enables faculty to teach to both remote and in person students simultaneously during the covid-19 pandemic. The AV tech controls cameras, displays zoom content to two monitors and two projection screens, and coordinates with the teaching staff. The form was designed to remind the tech to communicate to the teaching staff about expectations for the class, as a way for teaching staff to make a request for a unique one-time setup ahead of time, and/or to seamlessly transfer the information to a substitute tech in case of illness, denied access into the building, or any other cause for absence. My colleagues were uncomfortable about the form being on paper and not online, so MIT made a excel sheet for the purpose of recording preferences substitute techs could reference. I wanted to see if I could recreate the form online, so here it is. I'm not sure it's exactly how I want it, but it was engaging and I learned a lot. Thanks for reading!
