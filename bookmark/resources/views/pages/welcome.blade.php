@@ -1,7 +1,16 @@
 @extends('layouts/main')
 
 @section('content')
-<p>
+
+@if(Auth::user())
+<h2 dusk='welcome-heading'>
+    Hello {{ Auth::user()->name }}!
+</h2>
+@else
+<a href='/register' dusk='register-link'>Register now...</a>
+@endif
+
+<p id='welcome-paragraph' dusk='welcome-paragraph'>
     Welcome to Bookmark&mdash; an online book journal that lets you track and share a history of books you’ve read.
 </p>
 
@@ -28,6 +37,14 @@
     </fieldset>
 
     <input type='submit' class='btn btn-primary' value='Search'>
+
+    @if(count($errors) > 0)
+    <ul class='alert alert-danger'>
+        @foreach($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+    @endif
 
 </form>
 

@@ -13,6 +13,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call(AuthorsTableSeeder::class);
+        $this->call(BooksTableSeeder::class);
+        $this->call(UsersTableSeeder::class);
+        $this->call(BookUserTableSeeder::class); # Because this seeder is dependent on Books and Users, it should be invoked last
         // \App\Models\User::factory(10)->create();
     }
 }

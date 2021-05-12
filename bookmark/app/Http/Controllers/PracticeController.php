@@ -4,9 +4,97 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Book;
+use App\Models\User;
 
 class PracticeController extends Controller
 {
+    
+    public function practice19()
+{
+    # As an example, grab a user we know has books on their list
+    $user = User::where('email', '=', 'jill@harvard.edu')->first();
+
+    # Grab the first book on their list
+    $book = $user->books()->first();
+
+    # Delete the relationship
+    $book->pivot->delete();
+
+    # Confirm it worked
+    return 'Delete complete. Check the `book_user` table to confirm.';
+}
+    public function practice18()
+    {
+        # As an example, grab a user we know has books on their list
+        $user = User::where('email', '=', 'jill@harvard.edu')->first();
+    
+        # Grab the first book on their list
+        $book = $user->books()->first();
+    
+        # Update and save the notes for this relationship
+        $book->pivot->notes = "New note...";
+        $book->pivot->save();
+    
+        # Confirm it worked
+        return 'Update complete. Check the `book_user` table to confirm.';
+    }
+    
+    public function practice17()
+    {
+        # As an example, grab a user we know has books on their list
+        $user = User::where('email', '=', 'jill@harvard.edu')->first();
+    
+        # Grab the first book on their list
+        $book = $user->books()->first();
+    
+        # Delete the relationship
+        $book->pivot->delete();
+    
+        # Confirm it worked
+        return 'Delete complete. Check the `book_user` table to confirm.';
+    }
+
+    public function practice16()
+    {
+        # Eager load users to reduce number of queries
+        # (Suggestion: Try this without the `with` and watch how it greatly increases the number of queries)
+        $books = Book::with('users')->get();
+    
+        foreach ($books as $book) {
+             if ($book->users->count() == 0) {
+                dump($book->title . ' is not on any user’s list');
+            } else {
+                dump($book->title . ' is on the following user’s lists:');
+    
+                foreach ($book->users as $user) {
+                    dump($user->email);
+                }
+            }
+        }
+    }
+
+    public function practice15()
+    {
+        $user = User::where('email', '=', 'jamal@harvard.edu')->first();
+        $book = Book::where('title', '=', 'The Martian')->first();
+
+        $user->books()->save($book);
+        # Note how we can treate the `books` relationship as a dynamic propert ($user->books)
+
+        }
+    
+    public function practice14()
+    {
+        $user = User::where('email', '=', 'jill@harvard.edu')->first();
+
+        dump($user->name.' has the following books on their list: ');
+
+        # Note how we can treate the `books` relationship as a dynamic propert ($user->books)
+        foreach ($user->books as $book) {
+            dump($book->title);
+        }
+    }
+
     public function practice4()
     {
         $book = Book::where('author', '=', 'Dr. Seuss')->get();

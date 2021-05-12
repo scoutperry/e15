@@ -1,23 +1,24 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\RecipeController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
-Route::get('/', function () {
-    // Eventually we'll want to return a view with our customized home page.
-    // For now, we’ll just return a simple string
-    return '<h1>P1 SooChef</h1>';
-});
+// Route::get('/', function () {
+//     // Eventually we'll want to return a view with our customized home page.
+//     // For now, we’ll just return a simple string
+//     return '<h1>P1 SooChef</h1>';
+// });
+Route::get('/', [PageController::class, 'welcome']);
+Route::get('/recipes', [RecipeController::class, 'index']);
+Route::get('/recipes/create', [RecipeController::class, 'create']);
+Route::post('/recipes', [RecipeController::class, 'store']);
+
+
+
+
 Route::get('/debug', function () {
 
     $debug = [
