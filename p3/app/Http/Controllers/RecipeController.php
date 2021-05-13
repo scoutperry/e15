@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use App\Models\Book;
+use App\Models\Recipe;
+use App\Models\Ingredient;
+
 
 
 class RecipeController extends Controller
@@ -38,24 +40,43 @@ class RecipeController extends Controller
         ]);
         
         
-        dd($request->all());
+       //dd($request->all());
 
         return redirect('/recipes/create')->with(['flash-alert' => 'Your book was added!']);
-
+        // returns http://e15p3.loc/recipes, "page expired"
 
     }
 
-
-
     public function show(Request $request, $slug)
     {
+        $recipe = Recipe::findBySlug($slug);
+        $ingredients = Ingredient::where('recipe_id',$recipe->id )->get();
 
+            // foreach ($ingredients as $ingredient) {
+            //     dump($ingredient->foodName);
+            // }
+    
+
+
+        if (!$recipe) {
+
+            return redirect('/recipes')->with(['flash-alert' => 'Recipe not found.']);
+        }
+        //$onList = $recipe->users()->where('user_id', $request->user()->id)->count() >= 1;
+
+        return view('recipes/show', [
+            'recipe' => $recipe,
+            'ingredients' => $ingredients,
+
+            //'onList' => $onList
+
+        ]);
         
     }
 
     public function search(Request $request)
     {
-
+//what is this for? am I using this for something?
         $request->validate([
             'searchTerms' => 'required',
             'searchType' => 'required'

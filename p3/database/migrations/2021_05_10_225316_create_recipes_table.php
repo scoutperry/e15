@@ -18,7 +18,7 @@ class CreateRecipesTable extends Migration
             $table->timestamps();
             $table->string('slug');
             $table->string('title');
-            $table->string('pic_url')->nullable(); 
+            $table->string('pic_url',600)->nullable(); 
             $table->string('source_url');
             $table->string('author');
             $table->tinyInteger('yield');

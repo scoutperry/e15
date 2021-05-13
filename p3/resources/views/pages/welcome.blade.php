@@ -2,13 +2,13 @@
 
 @section('content')
 
-{{-- @if(Auth::user())
+@if(Auth::user())
 <h2 dusk='welcome-heading'>
     Hello {{ Auth::user()->name }}!
 </h2>
 @else
 <a href='/register' dusk='register-link'>Register now...</a>
-@endif --}}
+@endif
 
 <p id='welcome-paragraph' dusk='welcome-paragraph'>
 </p>

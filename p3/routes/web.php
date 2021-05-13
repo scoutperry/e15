@@ -15,8 +15,7 @@ Route::get('/', [PageController::class, 'welcome']);
 Route::get('/recipes', [RecipeController::class, 'index']);
 Route::get('/recipes/create', [RecipeController::class, 'create']);
 Route::post('/recipes', [RecipeController::class, 'store']);
-
-
+Route::get('/recipes/{title}', [RecipeController::class, 'show']);
 
 
 Route::get('/debug', function () {
