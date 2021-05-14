@@ -13,41 +13,64 @@
 <p id='welcome-paragraph' dusk='welcome-paragraph'>
 </p>
 
-<form method='GET' action='/search'>
+{{-- <form method='GET' action='/search'>
 
     <h2></h2>
 
     <fieldset>
-        <label for='searchTerms'>
-            Search terms:
-            <input type='text' name='searchTerms' id='searchTerms' value='{{ $searchTerms }}'> </label>
-    </fieldset>
+        <label for='searchYield1'>* First Recipe:</label>
+        <select name='searchYield1' id='searchYield1'>
+            <option value=''>Choose one...</option>
+            @foreach($recipes as $recipe)
+            <option value='{{ $recipe->id }}'>{{ $recipe->title}}</option>
+@endforeach
+</select>
+@include('includes.error-field', ['fieldName' => 'recipe_id'])
 
-    <fieldset>
-        <label>
-            Search type:
-        </label>
-        <input type='radio' name='searchType' id='title' value='title' {{ ($searchType == 'title' or is_null($searchType)) ? 'checked' : '' }}>
-        <label for='title'> Title</label>
+<label for='searchYield2'>* Second Recipe:</label>
+<select name='searchYield2' id='searchYield2'>
+    <option value=''>Choose one...</option>
+    @foreach($recipes as $recipe)
+    <option value='{{ $recipe->id }}'>{{ $recipe->title}}</option>
+    @endforeach
+</select>
+@include('includes.error-field', ['fieldName' => 'recipe_id'])
 
-        <input type='radio' name='searchType' id='author' value='author' {{ ($searchType == 'author') ? 'checked' : '' }}>
-        <label for='author'> Author</label>
 
-    </fieldset>
+</fieldset>
 
-    <input type='submit' class='btn btn-primary' value='Search'>
-
-    @if(count($errors) > 0)
-    <ul class='alert alert-danger'>
-        @foreach($errors->all() as $error)
-        <li>{{ $error }}</li>
+<fieldset>
+    <label for='searchYield3'>Optional Third Recipe:</label>
+    <select name='searchYield3' id='searchYield1'>
+        <option value=''>Choose one...</option>
+        @foreach($recipes as $recipe)
+        <option value='{{ $recipe->id }}'>{{ $recipe->title}}</option>
         @endforeach
-    </ul>
-    @endif
+    </select>
+
+    <label for='searchYield2'>Optional Forth Recipe:</label>
+    <select name='searchYield2' id='searchYield2'>
+        <option value=''>Choose one...</option>
+        @foreach($recipes as $recipe)
+        <option value='{{ $recipe->id }}'>{{ $recipe->title}}</option>
+        @endforeach
+    </select>
+
+</fieldset>
+
+<input type='submit' class='btn btn-primary' value='Search'>
+
+@if(count($errors) > 0)
+<ul class='alert alert-danger'>
+    @foreach($errors->all() as $error)
+    <li>{{ $error }}</li>
+    @endforeach
+</ul>
+@endif
 
 </form>
 
-@if(!is_null($searchResults))
+@if(!is_null($searchYield1))
 @if(count($searchResults) == 0)
 <div class='results alert alert-warning'>
     No results found.
@@ -65,42 +88,7 @@
     </ul>
 </div>
 @endif
-@endif
+@endif --}}
 
-
-
-{{-- Building up to ingredient count
-    <label for='recipe_id'>* Recipe</label>
-    <select name='recipe_id' id='recipe_id'>
-        <option value=''>Choose one...</option>
-        @foreach($recipes as $recipe)
-        <option value='{{ $recipe->id }}'>{{ $recipe->first_name.' '.$recipe->last_name }}</option>
-@endforeach
-</select>
-@include('includes.error-field', ['fieldName' => 'recipe_id'])
-<label for='recipe_id'>* Recipe</label>
-<select name='recipe_id' id='recipe_id'>
-    <option value=''>Choose one...</option>
-    @foreach($recipes as $recipe)
-    <option value='{{ $recipe->id }}'>{{ $recipe->first_name.' '.$recipe->last_name }}</option>
-    @endforeach
-</select>
-@include('includes.error-field', ['fieldName' => 'recipe_id'])
-<label for='recipe_id'>* Recipe</label>
-<select name='recipe_id' id='recipe_id'>
-    <option value=''>Choose one...</option>
-    @foreach($recipes as $recipe)
-    <option value='{{ $recipe->id }}'>{{ $recipe->first_name.' '.$recipe->last_name }}</option>
-    @endforeach
-</select>
-@include('includes.error-field', ['fieldName' => 'recipe_id'])
-<label for='recipe_id'>* Recipe</label>
-<select name='recipe_id' id='recipe_id'>
-    <option value=''>Choose one...</option>
-    @foreach($recipes as $recipe)
-    <option value='{{ $recipe->id }}'>{{ $recipe->first_name.' '.$recipe->last_name }}</option>
-    @endforeach
-</select>
-@include('includes.error-field', ['fieldName' => 'recipe_id']) --}}
 
 @endsection

@@ -93,23 +93,6 @@ class BookController extends Controller
         
     }
 
-    // public function show($slug)
-    // {
-    //     # Load our book data
-    //     # TODO: This code is redundant with loading the books in the index method
-    //     $bookData = file_get_contents(database_path('books.json'));
-    //     $books = json_decode($bookData, true);
-
-    //     # Narrow down our array of books
-    //     $book = Arr::first($books, function ($value, $key) use ($slug) {
-    //         return $key == $slug;
-    //     });
-        
-    //     return view('books/show', [
-    //         'book' => $book,
-    //     ]);
-    // }
-
     /**
      * GET /search
     */

@@ -38,9 +38,16 @@ class RecipeController extends Controller
             'cook_time' => 'numeric',
             'total_time' => 'numeric',
         ]);
-        
-        
-       //dd($request->all());
+        $recipe->title = $request->title;
+        $recipe->slug = $request->slug;
+        $recipe->pic_url = $request->pic_url;
+        $recipe->source_url = $request->source_url;
+        $recipe->author = $request->author;
+        $recipe->yield = $request->yield;
+        $recipe->prep_time = $request->prep_time;
+        $recipe->cook_time = $request->cook_time;
+        $recipe->total_time = $request->total_time;
+        $recipe->save();
 
         return redirect('/recipes/create')->with(['flash-alert' => 'Your book was added!']);
         // returns http://e15p3.loc/recipes, "page expired"
@@ -51,12 +58,6 @@ class RecipeController extends Controller
     {
         $recipe = Recipe::findBySlug($slug);
         $ingredients = Ingredient::where('recipe_id',$recipe->id )->get();
-
-            // foreach ($ingredients as $ingredient) {
-            //     dump($ingredient->foodName);
-            // }
-    
-
 
         if (!$recipe) {
 
@@ -76,21 +77,24 @@ class RecipeController extends Controller
 
     public function search(Request $request)
     {
-//what is this for? am I using this for something?
-        $request->validate([
-            'searchTerms' => 'required',
-            'searchType' => 'required'
-        ]);
+        // $request->validate([
+        //     'searchTerms' => 'required',
+        //     'searchType' => 'required'
+        // ]);
+
+        // $searchType = $request->input('searchType', 'title');
+        // $searchTerms = $request->input('searchTerms', '');
+
+        // $searchResults = Book::where($searchType, 'LIKE', '%'.$searchTerms.'%')->get();
+
+        $recipes = Recipe::orderBy('title')->select(['id', 'title'])->get();
 
 
 
-        $searchType = $request->input('searchType', 'title');
-        $searchTerms = $request->input('searchTerms', '');
-
-        $searchResults = Book::where($searchType, 'LIKE', '%'.$searchTerms.'%')->get();
 
         return redirect('/')->with([
-            'searchResults' => $searchResults
+            
+            'recipes' => $recipes
         ])->withInput();
         // # Get the form nput values (default to null if no values exist)
         // $searchTerms = $request->input('searchTerms', null);
@@ -115,44 +119,53 @@ class RecipeController extends Controller
         //     'searchType' => $searchType,
         //     'searchResults' => $searchResults
         // ]);
-    
-        # ======== Temporary code to explore $request ==========
 
-        # Get all the properties and methods available in the $request object
-        //dump($request); # Object of type Illuminate\Http\Request
-
-        # Get the form data (array) from the $request object
-        //dump($request->all()); # Equivalent of dump($_GET)
-    
-        # Get the form data from individual fields
-        //dump($request->input('searchTerms'));
-        //dump($request->input('searchType'));
-
-        # Form data from individual fields can also be accessed via dynamic properties
-        //dump($request->searchTerms);
-
-        # Boolean to see if the request contains data for a particular field, checkboxes
-        //dump($request->has('searchType'));
-    
-        # You can get more information about a request than just the data of the form, for example...
-        //dump($request->path()); # "search"
-        //dump($request->is('search')); # true
-        //dump($request->is('books')); # false
-        //dump($request->fullUrl()); # e.g. http://bookmark.loc search?searchTerms=Harry%20Potter&searchType=title
-        //dump($request->method()); # GET
-        //dump($request->isMethod('post')); # False
-
-        # ======== End exploration of $request ========== 
     }
 
     public function edit(Request $request, $slug)
     {
+        {
         
+            $recipe = Recipe::findBySlug($slug);
+            // $authors = Author::orderBy('last_name')->select(['id', 'first_name', 'last_name'])->get();
+    
+            if(!$recipe) {
+                return redirect('/recipes')->with(['flash-alert' => 'Recipe not found.']);
+            }
+    
+            return view('recipes/edit', ['recipe' => $recipe]);  
+            // , ['authors' => $authors]
+        }
 
     }
     public function update(Request $request, $slug)
     {
+            $recipe = Recipe::findBySlug($slug);
+                
+            $request->validate([
+                'title' => 'required',
+                'slug' => 'required',
+                'pic_url' => 'url',
+                'source_url' => 'required|url',
+                'author' => 'required',
+                'yield' => 'required|numeric',
+                'prep_time' => 'numeric',
+                'cook_time' => 'numeric',
+                'total_time' => 'numeric',
+            ]);
 
+            $recipe->title = $request->title;
+            $recipe->slug = $request->slug;
+            $recipe->pic_url = $request->pic_url;
+            $recipe->source_url = $request->source_url;
+            $recipe->author = $request->author;
+            $recipe->yield = $request->yield;
+            $recipe->prep_time = $request->prep_time;
+            $recipe->cook_time = $request->cook_time;
+            $recipe->total_time = $request->total_time;
+            $recipe->save();
+    
+            return redirect('/recipes/'.$slug.'/edit')->with(['flash-alert' => 'Your changes were saved']);
 
     }
 

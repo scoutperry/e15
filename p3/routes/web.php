@@ -12,11 +12,17 @@ use App\Http\Controllers\RecipeController;
 //     return '<h1>P1 SooChef</h1>';
 // });
 Route::get('/', [PageController::class, 'welcome']);
-Route::get('/recipes', [RecipeController::class, 'index']);
-Route::get('/recipes/create', [RecipeController::class, 'create']);
-Route::post('/recipes', [RecipeController::class, 'store']);
-Route::get('/recipes/{title}', [RecipeController::class, 'show']);
 
+Route::group(['middleware' => 'auth'], function () {
+
+    Route::get('/recipes', [RecipeController::class, 'index']);
+    Route::get('/recipes/create', [RecipeController::class, 'create']);
+    Route::post('/recipes', [RecipeController::class, 'store']);
+    Route::get('/recipes/{title}', [RecipeController::class, 'show']);
+    Route::get('/recipes/{slug}/edit', [RecipeController::class, 'edit']);
+    Route::put('/recipes/{slug}', [RecipeController::class, 'update']);
+
+});
 
 Route::get('/debug', function () {
 
